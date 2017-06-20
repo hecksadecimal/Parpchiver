@@ -19,6 +19,8 @@ def archive_search(chat):
             f.write("<div style='color:#%s;'>%s: %s</div>" % (message['color'], message['acronym'], message['text']))
 
 def archive_page(page_data, chat, date_code):
+    if not os.path.exists(chat):
+        os.makedirs(chat)
     print("%s: %s" % (chat, date_code))
     with open('%s/%s.html' % (chat, date_code), 'w+') as f:
         for message in page_data['messages']:
@@ -27,24 +29,38 @@ def archive_page(page_data, chat, date_code):
 def archive_chat(chat):
     if not os.path.exists(chat):
         os.makedirs(chat)
+    file_list = os.listdir(chat)
+    if (len(file_list) > 0):
+        resume_from = file_list[0].replace(".html", "")
+        print("Resuming from %s" % resume_from)
+    else:
+        resume_from = None
 
-    final_url = "https://msparp.com/%s/log.json" % chat
-    response = urllib.urlopen(final_url)
-    data = json.loads(response.read())
-    page_count = 1
-    loop_run = True
-    prev_page = data['previous_day']
-    secondlast_page = prev_page
+    if (resume_from is not None):
+        final_url = "https://msparp.com/%s/log/%s.json" % (chat, resume_from)
+        response = urllib.urlopen(final_url)
+        data = json.loads(response.read())
+        page_count = 1
+        loop_run = True
+        prev_page = data['previous_day']
+    else:
+        final_url = "https://msparp.com/%s/log.json" % chat
+        response = urllib.urlopen(final_url)
+        data = json.loads(response.read())
+        page_count = 1
+        loop_run = True
+        prev_page = data['previous_day']
+        secondlast_page = prev_page
 
-    # We need to do this a second time because the datecode for the last page isn't available straight from log.json
-    secondlast_url = "https://msparp.com/%s/log/%s.json" % (chat, prev_page)
-    secondlast_response = urllib.urlopen(secondlast_url)
-    secondlast_data = json.loads(secondlast_response.read())
-    page_count = page_count + 1
-    prev_page = secondlast_data['previous_day']
-    final_page = secondlast_data['next_day']
-    archive_page(data, chat, final_page)
-    archive_page(secondlast_data, chat, secondlast_page)
+        # We need to do this a second time because the datecode for the last page isn't available straight from log.json
+        secondlast_url = "https://msparp.com/%s/log/%s.json" % (chat, prev_page)
+        secondlast_response = urllib.urlopen(secondlast_url)
+        secondlast_data = json.loads(secondlast_response.read())
+        page_count = page_count + 1
+        prev_page = secondlast_data['previous_day']
+        final_page = secondlast_data['next_day']
+        archive_page(data, chat, final_page)
+        archive_page(secondlast_data, chat, secondlast_page)
 
     # We're also doing this in reverse order, because log.json is the only reliable endpoint that gives us the info for the remainder.
     # It's at the tail end of the log though.
