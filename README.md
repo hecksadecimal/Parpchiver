@@ -46,7 +46,7 @@ Example input, first command:
 ```
 python msparp_archive.py featuretesting 2017-05-19
 ```
-Example output, second command:
+Example output, first command:
 ```
 $ python msparp_archive.py featuretesting 2017-05-19
 Getting 2017-05-19 for featuretesting
