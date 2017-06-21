@@ -1,5 +1,6 @@
 # Parpchiver
 A tool for archiving chats on msparp locally.
+Requirements: Python 2.7
 
 ## Usage
 ```
