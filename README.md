@@ -8,10 +8,12 @@ Requirements: Python 2.7
 python msparp_archive.py <chatname> [datecode]
 ```
 ### Archiving an entire chat log
-You can archive an entire chat by providing the script the name of the chat. 
+You can archive an entire chat by providing the script the name of the chat.
 The example used here is http://msparp.com/featuretesting
 
-Note that this works exactly the same for searched chats as of v1.2, with the exception of datecodes. They do not apply.
+Note that this works exactly the same for searched chats as of v1.2, with the exception of datecodes. They do not apply. This may change in the future.
+
+Currently (and for the foreseeable future), PM chat logs cannot be archived using this script.
 
 The script will automatically attempt to resume from the latest saved log if it exists.
 
