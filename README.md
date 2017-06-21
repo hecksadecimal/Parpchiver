@@ -11,7 +11,7 @@ python msparp_archive.py <chatname> [datecode]
 You can archive an entire chat by providing the script the name of the chat. 
 The example used here is http://msparp.com/featuretesting
 
-Note that this works exactly the same for searched chats with one caveat. It will save the entire searced chat log in one file, datecodes do not apply.
+Note that this works exactly the same for searched chats as of v1.2, with the exception of datecodes. They do not apply.
 
 The script will automatically attempt to resume from the latest saved log if it exists.
 
